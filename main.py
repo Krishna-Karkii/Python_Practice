@@ -1,21 +1,19 @@
-from flask import Flask, render_template
+import streamlit as st
+import requests
 
-app = Flask(__name__)
+api_key = "K3F5shJkjBV1G1eei9bFSo6Sdjeci45AarMNa4AB"
+url = ("https://api.nasa.gov/planetary/apod?api_key=K3F5shJkjBV1G1eei9bFSo6Sdjeci45AarMNa4AB")
 
+response = requests.get(url)
+content = response.json()
 
-@app.route("/")
-def home():
-    return render_template("home.html")
+image_response = requests.get(content["url"])
+with open("image.jpg", "wb") as file:
+    file.write(image_response.content)
 
+st.title(content["title"])
+st.text("")
 
-@app.route("/<U_input>")
-def word(U_input):
-    new_input = U_input.upper()
-    return {
-        "definition": new_input,
-        "word": U_input
-    }
+st.image("image.jpg")
 
-
-if __name__ == "__main__":
-    app.run(debug=True, port=5001)
+st.write(content["explanation"])
