@@ -1,19 +1,19 @@
-import streamlit as st
-import requests
+def meditate(mana, max_mana, energy, energy_potions):
 
-api_key = "K3F5shJkjBV1G1eei9bFSo6Sdjeci45AarMNa4AB"
-url = ("https://api.nasa.gov/planetary/apod?api_key=K3F5shJkjBV1G1eei9bFSo6Sdjeci45AarMNa4AB")
+    while (energy != 0 or energy_potions != 0) and (mana != max_mana):
+        mana = mana + 3
 
-response = requests.get(url)
-content = response.json()
+        if mana > max_mana:
+            dif = mana - max_mana
+            mana = mana - dif
 
-image_response = requests.get(content["url"])
-with open("image.jpg", "wb") as file:
-    file.write(image_response.content)
+        if mana != max_mana:
+            if energy == 0 and energy_potions != 0:
+                energy = 50
+                energy_potions -= 1
 
-st.title(content["title"])
-st.text("")
+        energy = energy - 1
 
-st.image("image.jpg")
+    return mana, energy, energy_potions
 
-st.write(content["explanation"])
+
