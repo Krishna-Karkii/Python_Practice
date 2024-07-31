@@ -7,6 +7,7 @@ from pygame.sprite import Sprite
 class Star(Sprite):
     """this is the instance of the star"""
     def __init__(self, stars):
+        """initialize the attributes of the star"""
         super().__init__()
         self.image = pygame.image.load("../images/star.png")
         self.rect = self.image.get_rect()
@@ -20,17 +21,20 @@ class Stars:
         """initialize attributes of the stars"""
         # Load pygame resources
         pygame.init()
+        # create window in full screen mode
         self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         self.screen_rect = self.screen.get_rect()
 
-        self.star = Star(self)
+        # create stars group to catch a list of star instance
         self.stars = pygame.sprite.Group()
 
+        # create clock to maintain frame rate
         self.clock = pygame.time.Clock()
 
     def run_stars(self):
         """main loop of this function"""
         while True:
+            # check for event related to quiting
             for self.event in pygame.event.get():
                 if self.event.type == pygame.QUIT:
                     sys.exit()
@@ -44,12 +48,14 @@ class Stars:
             self.clock.tick(60)
 
     def _create_star(self):
+        """instance of the star is created, and added in the stars group"""
         if len(self.stars.sprites()) == 0:
             while len(self.stars.sprites()) < 10:
                 new_star = Star(self)
                 self.stars.add(new_star)
 
     def _update_star(self):
+        """draw the star in the screen"""
         self._create_star()
         self.stars.draw(self.screen)
 
