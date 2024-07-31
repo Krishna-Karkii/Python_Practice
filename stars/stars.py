@@ -1,14 +1,17 @@
 import sys
+import random
 import pygame
 from pygame.sprite import Sprite
 
 
 class Star(Sprite):
     """this is the instance of the star"""
-    def __init__(self):
+    def __init__(self, stars):
         super().__init__()
         self.image = pygame.image.load("../images/star.png")
-        self.image_rect = self.image.get_rect()
+        self.rect = self.image.get_rect()
+        self.rect.x = random.randint(0, stars.screen_rect.width)
+        self.rect.y = random.randint(0, stars.screen_rect.height)
 
 
 class Stars:
@@ -19,10 +22,10 @@ class Stars:
         pygame.init()
         self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         self.screen_rect = self.screen.get_rect()
-        self.star = Star()
-        self.star.image_rect.center = self.screen_rect.center
 
+        self.star = Star(self)
         self.stars = pygame.sprite.Group()
+
         self.clock = pygame.time.Clock()
 
     def run_stars(self):
@@ -36,15 +39,19 @@ class Stars:
                     if self.event.key == pygame.K_q:
                         sys.exit()
 
-            self._blitme()
+            self._update_star()
             pygame.display.flip()
             self.clock.tick(60)
 
-    def create_star(self):
-        pass
+    def _create_star(self):
+        if len(self.stars.sprites()) == 0:
+            while len(self.stars.sprites()) < 10:
+                new_star = Star(self)
+                self.stars.add(new_star)
 
-    def _blitme(self):
-        self.screen.blit(self.star.image, self.star.image_rect, self.screen_rect)
+    def _update_star(self):
+        self._create_star()
+        self.stars.draw(self.screen)
 
 
 if __name__ == "__main__":
