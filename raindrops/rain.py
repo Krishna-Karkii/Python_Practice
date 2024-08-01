@@ -1,5 +1,4 @@
 import sys
-
 import pygame
 from pygame.sprite import Sprite
 
@@ -21,20 +20,29 @@ class Rain:
         self.screen_rect = self.screen.get_rect()
 
         self.clock = pygame.time.Clock()
+        self.raindrops = pygame.sprite.Group()
 
     def run_animation(self):
         """Main loop of the animation"""
         while True:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    sys.exit()
-
-                elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_q:
-                        sys.exit()
-
+            self._check_events()
             pygame.display.flip()
             self.clock.tick(60)
+
+    def _check_events(self):
+        """check event form the event list"""
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_q:
+                    sys.exit()
+
+    def create_raindrop(self):
+        """create the instance of the rain drop"""
+        new_drop = Raindrop(self)
+        self.raindrops.add(new_drop)
 
 
 if __name__ == "__main__":
