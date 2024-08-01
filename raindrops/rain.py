@@ -1,3 +1,5 @@
+import sys
+
 import pygame
 from pygame.sprite import Sprite
 
@@ -18,6 +20,23 @@ class Rain:
         self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         self.screen_rect = self.screen.get_rect()
 
+        self.clock = pygame.time.Clock()
+
     def run_animation(self):
         """Main loop of the animation"""
-        pass
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    sys.exit()
+
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_q:
+                        sys.exit()
+
+            pygame.display.flip()
+            self.clock.tick(60)
+
+
+if __name__ == "__main__":
+    rain = Rain()
+    rain.run_animation()
