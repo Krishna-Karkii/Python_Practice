@@ -83,6 +83,16 @@ class Rain:
             current_y += 2 * drop_height
             current_x = drop_width
 
+    def _create_row(self):
+        drop = Raindrop(self)
+        drop_width, drop_height = drop.rect.size
+        current_y = -1 * drop_height
+        current_x = drop_width
+
+        while current_x < (self.screen_rect.width - 2 * drop_width):
+            self._create_raindrop(current_x, current_y)
+            current_x += 2 * drop_width
+
     def _update_rain_fleet(self):
         """update and draw the position of rain drops on surface"""
         self.raindrops.update()
