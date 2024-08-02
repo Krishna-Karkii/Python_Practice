@@ -7,6 +7,7 @@ class Raindrop(Sprite):
     """Class to create the instance of rain drop"""
     def __init__(self, rain_main):
         super().__init__()
+        self.screen_rect = rain_main.screen_rect
         self.image = pygame.image.load("../images/rain_drop.png")
         self.rect = self.image.get_rect()
 
@@ -22,11 +23,14 @@ class Rain:
         self.clock = pygame.time.Clock()
         self.raindrops = pygame.sprite.Group()
 
+        self._create_rain_fleet()
+
     def run_animation(self):
         """Main loop of the animation"""
         while True:
             self._check_events()
-            pygame.display.flip()
+            self._update_rain_fleet()
+            self._update_screen()
             self.clock.tick(60)
 
     def _check_events(self):
@@ -39,10 +43,22 @@ class Rain:
                 if event.key == pygame.K_q:
                     sys.exit()
 
-    def create_raindrop(self):
-        """create the instance of the rain drop"""
-        new_drop = Raindrop(self)
-        self.raindrops.add(new_drop)
+    def _create_rain_fleet(self):
+        """create a fleet of rain horizontally"""
+        drop = Raindrop(self)
+        drop_width, drop_height = drop.rect.size
+        current_x = drop_width
+        current_y = drop_height
+
+        # create four rows of droplets
+        while current_y < (self.screen_rect.height - 6 * drop_height):
+
+            while current_x < (self.screen_rect.width - 2 * drop_width):
+                self._create_raindrop(current_x, current_y)
+                current_x += 2 * drop_width
+
+            current_y += 2 * drop_height
+            current_x = drop_width
 
 
 if __name__ == "__main__":
