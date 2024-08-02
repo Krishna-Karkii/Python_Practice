@@ -11,6 +11,15 @@ class Raindrop(Sprite):
         self.image = pygame.image.load("../images/rain_drop.png")
         self.rect = self.image.get_rect()
 
+        self.rect.x = self.rect.width
+        self.rect.y = self.rect.height
+
+        self.y = float(self.rect.y)
+
+    def update(self):
+        self.y += 1.5
+        self.rect.y = self.y
+
 
 class Rain:
     """Class to create the rain animation"""
