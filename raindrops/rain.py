@@ -52,6 +52,14 @@ class Rain:
                 if event.key == pygame.K_q:
                     sys.exit()
 
+    def _create_raindrop(self, position_x, position_y):
+        """create the instance of the rain drop"""
+        new_drop = Raindrop(self)
+        new_drop.y = position_y
+        new_drop.rect.x = position_x
+        new_drop.rect.y = position_y
+        self.raindrops.add(new_drop)
+
     def _create_rain_fleet(self):
         """create a fleet of rain horizontally"""
         drop = Raindrop(self)
