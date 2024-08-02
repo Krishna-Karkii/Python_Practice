@@ -20,6 +20,12 @@ class Raindrop(Sprite):
         self.y += 1.5
         self.rect.y = self.y
 
+    def check_disappeared(self):
+        if self.rect.top > self.screen_rect.bottom:
+            return True
+        else:
+            return False
+
 
 class Rain:
     """Class to create the rain animation"""
