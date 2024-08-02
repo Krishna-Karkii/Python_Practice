@@ -77,6 +77,16 @@ class Rain:
             current_y += 2 * drop_height
             current_x = drop_width
 
+    def _update_rain_fleet(self):
+        """update and draw the position of rain drops on surface"""
+        self.raindrops.update()
+
+    def _update_screen(self):
+        """"""
+        self.screen.fill((230, 230, 230))
+        self.raindrops.draw(self.screen)
+        pygame.display.flip()
+
 
 if __name__ == "__main__":
     rain = Rain()
