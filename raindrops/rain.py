@@ -7,7 +7,7 @@ class Raindrop(Sprite):
     """Class to create the instance of rain drop"""
     def __init__(self, rain_main):
         super().__init__()
-        self.screen_rect = rain_main.screen_rect
+        self.screen = rain_main.screen
         self.image = pygame.image.load("../images/rain_drop.png")
         self.rect = self.image.get_rect()
 
@@ -21,7 +21,7 @@ class Raindrop(Sprite):
         self.rect.y = self.y
 
     def check_disappeared(self):
-        if self.rect.top > self.screen_rect.bottom:
+        if self.rect.top > self.screen.get_rect().bottom:
             return True
         else:
             return False
@@ -86,6 +86,18 @@ class Rain:
     def _update_rain_fleet(self):
         """update and draw the position of rain drops on surface"""
         self.raindrops.update()
+
+        # Assume we won't make new drops.
+        make_new_drops = False
+        for drop in self.raindrops.copy():
+            if drop.check_disappeared():
+                # Remove this drop, and we'll need to make new drops.
+                self.raindrops.remove(drop)
+                make_new_drops = True
+
+        # Make a new row of drops if needed.
+        if make_new_drops:
+            self._create_row()
 
     def _update_screen(self):
         """"""
