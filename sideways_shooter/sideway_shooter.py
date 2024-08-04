@@ -3,6 +3,7 @@ import pygame
 from ship import Ship
 from settings import Settings
 from bullet import Bullet
+from alien import Alien
 
 
 class SideWayShooter:
@@ -19,9 +20,13 @@ class SideWayShooter:
         self.clock = pygame.time.Clock()
 
         # create instance of imported, create bullets group for bullet instance
+        # create alien group for alien instance
         self.settings = Settings()
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
+        self.aliens = pygame.sprite.Group()
+
+        self._create_fleet()
 
     def run_game(self):
         """This function contains the main loop of the game"""
@@ -68,6 +73,23 @@ class SideWayShooter:
             self.bullet = Bullet(self)
             self.bullets.add(self.bullet)
 
+    def _create_alien(self, position_y):
+        """create alien instance and add it to aliens groups"""
+        alien = Alien(self)
+        alien.y = position_y
+        alien.rect.y = position_y
+        self.aliens.add(alien)
+
+    def _create_fleet(self):
+        """This creates a fleet of alien"""
+        alien = Alien(self)
+        alien_width, alien_height = alien.rect.size
+        current_y = alien_height
+
+        while current_y < (self.screen_rect.height - 2 * alien_height):
+            self._create_alien(current_y)
+            current_y += 2 * alien_height
+
     def _update_display(self):
         """update the display before flipping it"""
         self.screen.fill((128, 128, 128))
@@ -75,6 +97,7 @@ class SideWayShooter:
         for bullet in self.bullets.sprites():
             bullet.draw()
         self.ship.update_ship_position()
+        self.aliens.draw(self.screen)
 
     def _update_bullet(self):
         """update the bullet position and remove unnecessary bullets"""
