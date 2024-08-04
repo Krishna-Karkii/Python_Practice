@@ -63,8 +63,10 @@ class SideWayShooter:
 
     def _fire_bullet(self):
         """create a new bullet instance every time space bar is clicked"""
-        self.bullet = Bullet(self)
-        self.bullets.add(self.bullet)
+        # create and add no more than 5 bullets
+        if len(self.bullets.sprites()) < 6:
+            self.bullet = Bullet(self)
+            self.bullets.add(self.bullet)
 
     def _update_display(self):
         """update the display before flipping it"""
