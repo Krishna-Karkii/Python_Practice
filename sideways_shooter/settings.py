@@ -9,3 +9,5 @@ class Settings:
         self.bullet_width = 20
         self.bullet_height = 5
         self.bullet_color = (255, 128, 128)
+
+        # alien settings

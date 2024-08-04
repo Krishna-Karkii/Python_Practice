@@ -73,10 +73,11 @@ class SideWayShooter:
             self.bullet = Bullet(self)
             self.bullets.add(self.bullet)
 
-    def _create_alien(self, position_y):
+    def _create_alien(self, position_y, position_x):
         """create alien instance and add it to aliens groups"""
         alien = Alien(self)
         alien.y = position_y
+        alien.rect.x = position_x
         alien.rect.y = position_y
         self.aliens.add(alien)
 
@@ -85,10 +86,16 @@ class SideWayShooter:
         alien = Alien(self)
         alien_width, alien_height = alien.rect.size
         current_y = alien_height
+        current_x = alien.rect.x
 
-        while current_y < (self.screen_rect.height - 2 * alien_height):
-            self._create_alien(current_y)
-            current_y += 2 * alien_height
+        # add aliens horizontally and vertically leaving enough space between ship and aliens
+        while current_x > 10 * alien_width:
+            while current_y < (self.screen_rect.height - 2 * alien_height):
+                self._create_alien(current_y, current_x)
+                current_y += 2 * alien_height
+
+            current_y = alien_height
+            current_x -= 2 * alien_width
 
     def _update_display(self):
         """update the display before flipping it"""
