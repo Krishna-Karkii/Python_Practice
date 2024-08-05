@@ -32,6 +32,7 @@ class SideWayShooter:
         """This function contains the main loop of the game"""
         while True:
             self._check_events()
+            self._update_aliens()
             self._update_bullet()
             self._update_display()
             pygame.display.flip()
@@ -113,8 +114,25 @@ class SideWayShooter:
             if bullet.rect.left >= self.screen_rect.right:
                 self.bullets.remove(bullet)
 
+    def _change_fleet_direction(self):
+        """change the direction, and dropdown the fleet"""
+        for alien in self.aliens.sprites():
+            alien.rect.x -= self.settings.drop_left
+        self.settings.fleet_direction *= -1
+
+    def _check_fleet_edges(self):
+        """check whether an alien has hit the edge"""
+        for alien in self.aliens.sprites():
+            if alien.check_edges():
+                self._change_fleet_direction()
+                break
+
+    def _update_aliens(self):
+        """update the position of the aliens"""
+        self._check_fleet_edges()
+        self.aliens.update()
+
 
 if __name__ == "__main__":
     sws = SideWayShooter()
     sws.run_game()
-

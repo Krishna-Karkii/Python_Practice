@@ -11,3 +11,7 @@ class Settings:
         self.bullet_color = (255, 128, 128)
 
         # alien settings
+        self.alien_speed = 1.5
+        # -1 for moving up and 1 for moving down
+        self.fleet_direction = 1
+        self.drop_left = 15
