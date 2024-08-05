@@ -69,7 +69,7 @@ class SideWayShooter:
 
     def _fire_bullet(self):
         """create a new bullet instance every time space bar is clicked"""
-        # create and add no more than 5 bullets
+        # create and add no more than 6 bullets
         if len(self.bullets.sprites()) < 6:
             self.bullet = Bullet(self)
             self.bullets.add(self.bullet)
@@ -127,10 +127,18 @@ class SideWayShooter:
                 self._change_fleet_direction()
                 break
 
-    def _update_aliens(self):
-        """update the position of the aliens"""
+    def _check_alien_status(self):
+        """respond to alien-bullet collisions, and create new fleet"""
         # respond to collision between bullet and ship
         collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
+
+        # create if all alien destroyed
+        if not self.aliens:
+            self._create_fleet()
+
+    def _update_aliens(self):
+        """update the position of the aliens"""
+        self._check_alien_status()
         self._check_fleet_edges()
         self.aliens.update()
 
