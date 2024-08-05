@@ -129,6 +129,8 @@ class SideWayShooter:
 
     def _update_aliens(self):
         """update the position of the aliens"""
+        # respond to collision between bullet and ship
+        collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
         self._check_fleet_edges()
         self.aliens.update()
 
