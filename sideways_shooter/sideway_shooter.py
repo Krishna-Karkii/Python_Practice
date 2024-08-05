@@ -4,6 +4,7 @@ from ship import Ship
 from settings import Settings
 from bullet import Bullet
 from alien import Alien
+from game_stats import GameStats
 
 
 class SideWayShooter:
@@ -25,6 +26,9 @@ class SideWayShooter:
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
+
+        # instance of game stats to store game points, ship lefts etc.
+        self.game_stats = GameStats(self)
 
         self._create_fleet()
 

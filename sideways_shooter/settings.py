@@ -15,3 +15,6 @@ class Settings:
         # -1 for moving up and 1 for moving down
         self.fleet_direction = 1
         self.drop_left = 15
+
+        # Default game statistics
+        self.ships_allowed = 3
