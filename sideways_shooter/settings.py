@@ -2,7 +2,7 @@ class Settings:
     """A class that handles activities related to settings"""
     def __init__(self):
         # Settings related to movement
-        self.ship_speed = 1.5
+        self.ship_speed = 2.5
 
         # settings related to bullet
         self.bullet_speed = 3.0

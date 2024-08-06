@@ -36,8 +36,8 @@ class SideWayShooter:
         """This function contains the main loop of the game"""
         while True:
             self._check_events()
-            self._update_aliens()
             self._update_bullet()
+            self._update_aliens()
             self._update_display()
             pygame.display.flip()
             self.clock.tick(60)
@@ -138,6 +138,7 @@ class SideWayShooter:
 
         # create if all alien destroyed
         if not self.aliens:
+            self.bullets.empty()
             self._create_fleet()
 
     def _update_aliens(self):
@@ -145,6 +146,9 @@ class SideWayShooter:
         self._check_alien_status()
         self._check_fleet_edges()
         self.aliens.update()
+
+        if pygame.sprite.spritecollideany(self.ship, self.aliens):
+            print("ship hit!!")
 
 
 if __name__ == "__main__":

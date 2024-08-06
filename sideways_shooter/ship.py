@@ -13,10 +13,10 @@ class Ship:
         # Loading the image, rotating 90 degrees, and setting its position
         self.image = pygame.image.load("../images/sideway_ship.png")
         self.image = pygame.transform.rotate(self.image, 270)
-        self.image_rect = self.image.get_rect()
-        self.image_rect.midleft = self.screen_rect.midleft
+        self.rect = self.image.get_rect()
+        self.rect.midleft = self.screen_rect.midleft
 
-        self.y = float(self.image_rect.y)
+        self.y = float(self.rect.y)
 
         # movement flag
         self.up_flag = False
@@ -24,14 +24,14 @@ class Ship:
 
     def blitme(self):
         """displays ship image on the surface"""
-        self.screen.blit(self.image, self.image_rect)
+        self.screen.blit(self.image, self.rect)
 
     def update_ship_position(self):
         """updates ship position"""
-        if self.up_flag and self.image_rect.top > 0:
+        if self.up_flag and self.rect.top > 0:
             self.y -= self.settings.ship_speed
 
-        if self.down_flag and self.image_rect.bottom < self.screen_rect.bottom:
+        if self.down_flag and self.rect.bottom < self.screen_rect.bottom:
             self.y += self.settings.ship_speed
 
-        self.image_rect.y = self.y
+        self.rect.y = self.y
