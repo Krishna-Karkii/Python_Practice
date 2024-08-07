@@ -35,12 +35,15 @@ class SideWayShooter:
 
         self._create_fleet()
 
+        self.game_active = True
+
     def run_game(self):
         """This function contains the main loop of the game"""
         while True:
             self._check_events()
-            self._update_bullet()
-            self._update_aliens()
+            if self.game_active:
+                self._update_bullet()
+                self._update_aliens()
             self._update_display()
             pygame.display.flip()
             self.clock.tick(60)
@@ -125,17 +128,21 @@ class SideWayShooter:
         """This method handles the game stats,
          empties the bullets and aliens,
          and ship position when the ship is hit"""
-        self.game_stats.ship_count -= 1
+        if self.game_stats.ship_count > 0:
+            self.game_stats.ship_count -= 1
 
-        # empty the bullets and remaining alien fleet
-        self.bullets.empty()
-        self.aliens.empty()
+            # empty the bullets and remaining alien fleet
+            self.bullets.empty()
+            self.aliens.empty()
 
-        # create a new fleet and center the ship position
-        self._create_fleet()
-        self.ship.center_ship()
+            # create a new fleet and center the ship position
+            self._create_fleet()
+            self.ship.center_ship()
 
-        time.sleep(0.5)
+            time.sleep(0.5)
+
+        else:
+            self.game_active = False
 
     def _change_fleet_direction(self):
         """change the direction, and dropdown the fleet"""
