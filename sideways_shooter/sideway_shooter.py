@@ -7,6 +7,7 @@ from settings import Settings
 from bullet import Bullet
 from alien import Alien
 from game_stats import GameStats
+from button import Button
 
 
 class SideWayShooter:
@@ -35,7 +36,8 @@ class SideWayShooter:
 
         self._create_fleet()
 
-        self.game_active = True
+        self.game_active = False
+        self.button = Button(self, "Play")
 
     def run_game(self):
         """This function contains the main loop of the game"""
@@ -45,6 +47,8 @@ class SideWayShooter:
                 self._update_bullet()
                 self._update_aliens()
             self._update_display()
+            if not self.game_active:
+                self.button.draw()
             pygame.display.flip()
             self.clock.tick(60)
 
