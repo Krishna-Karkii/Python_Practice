@@ -14,7 +14,7 @@ class Settings:
         self.alien_speed = 1.5
         # -1 for moving up and 1 for moving down
         self.fleet_direction = 1
-        self.drop_left = 15
+        self.drop_left = 100
 
         # Default game statistics
         self.ships_allowed = 3

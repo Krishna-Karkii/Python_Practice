@@ -160,14 +160,25 @@ class SideWayShooter:
             self.bullets.empty()
             self._create_fleet()
 
+    def _check_bottom_hit(self):
+        """check if the alien has hit the bottom"""
+        for alien in self.aliens.sprites():
+            if alien.rect.left <= 0:
+                self._ship_hit()
+                break
+
     def _update_aliens(self):
         """update the position of the aliens"""
         self._check_alien_status()
         self._check_fleet_edges()
         self.aliens.update()
 
+        # execute when the ship and alien collides
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
             self._ship_hit()
+
+        # check if the alien has hit the bottom screen
+        self._check_bottom_hit()
 
 
 if __name__ == "__main__":
