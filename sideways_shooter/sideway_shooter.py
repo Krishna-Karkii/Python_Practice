@@ -1,5 +1,7 @@
 import sys
 import pygame
+import time
+
 from ship import Ship
 from settings import Settings
 from bullet import Bullet
@@ -20,15 +22,16 @@ class SideWayShooter:
 
         self.clock = pygame.time.Clock()
 
-        # create instance of imported, create bullets group for bullet instance
-        # create alien group for alien instance
         self.settings = Settings()
-        self.ship = Ship(self)
-        self.bullets = pygame.sprite.Group()
-        self.aliens = pygame.sprite.Group()
 
         # instance of game stats to store game points, ship lefts etc.
         self.game_stats = GameStats(self)
+
+        # create instance of imported, create bullets group for bullet instance
+        # create alien group for alien instance
+        self.ship = Ship(self)
+        self.bullets = pygame.sprite.Group()
+        self.aliens = pygame.sprite.Group()
 
         self._create_fleet()
 
@@ -118,6 +121,22 @@ class SideWayShooter:
             if bullet.rect.left >= self.screen_rect.right:
                 self.bullets.remove(bullet)
 
+    def _ship_hit(self):
+        """This method handles the game stats,
+         empties the bullets and aliens,
+         and ship position when the ship is hit"""
+        self.game_stats.ship_count -= 1
+
+        # empty the bullets and remaining alien fleet
+        self.bullets.empty()
+        self.aliens.empty()
+
+        # create a new fleet and center the ship position
+        self._create_fleet()
+        self.ship.center_ship()
+
+        time.sleep(0.5)
+
     def _change_fleet_direction(self):
         """change the direction, and dropdown the fleet"""
         for alien in self.aliens.sprites():
@@ -148,7 +167,7 @@ class SideWayShooter:
         self.aliens.update()
 
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
-            print("ship hit!!")
+            self._ship_hit()
 
 
 if __name__ == "__main__":
