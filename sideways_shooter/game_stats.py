@@ -6,7 +6,7 @@ class GameStats:
         super().__init__()
         self.settings = sws_game.settings
 
-        self.default_settings()
+        self.reset_settings()
 
-    def default_settings(self):
+    def reset_settings(self):
         self.ship_count = self.settings.ships_allowed

@@ -44,6 +44,7 @@ class SideWayShooter:
         while True:
             self._check_events()
             if self.game_active:
+                self.ship.update_ship_position()
                 self._update_bullet()
                 self._update_aliens()
             self._update_display()
@@ -71,6 +72,12 @@ class SideWayShooter:
         if self.event.key == pygame.K_DOWN:
             self.ship.down_flag = False
 
+    def _check_play_button(self, mouse_pos):
+        """manages the action when play button is pressed"""
+        if self.button.rect.collidepoint(mouse_pos):
+            self.game_stats.reset_settings()
+            self.game_active = True
+
     def _check_events(self):
         """check events from the recent events"""
         for self.event in pygame.event.get():
@@ -80,6 +87,9 @@ class SideWayShooter:
                 self._check_keydown()
             elif self.event.type == pygame.KEYUP:
                 self._check_keyup()
+            elif self.event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = pygame.mouse.get_pos()
+                self._check_play_button(mouse_pos)
 
     def _fire_bullet(self):
         """create a new bullet instance every time space bar is clicked"""
@@ -118,7 +128,6 @@ class SideWayShooter:
         self.ship.blitme()
         for bullet in self.bullets.sprites():
             bullet.draw()
-        self.ship.update_ship_position()
         self.aliens.draw(self.screen)
 
     def _update_bullet(self):
@@ -179,7 +188,7 @@ class SideWayShooter:
                 break
 
     def _update_aliens(self):
-        """update the position of the aliens"""
+        """update the position of the aliens."""
         self._check_alien_status()
         self._check_fleet_edges()
         self.aliens.update()
