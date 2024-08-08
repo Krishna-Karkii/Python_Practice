@@ -63,6 +63,8 @@ class SideWayShooter:
             self._fire_bullet()
         if self.event.key == pygame.K_q:
             sys.exit()
+        if self.event.key == pygame.K_p:
+            self._check_play_button(mouse_pos="", key_pressed=True)
 
     def _check_keyup(self):
         """check which key was released, set flag to false"""
@@ -72,10 +74,14 @@ class SideWayShooter:
         if self.event.key == pygame.K_DOWN:
             self.ship.down_flag = False
 
-    def _check_play_button(self, mouse_pos):
+    def _check_play_button(self, mouse_pos, key_pressed):
         """manages the action when play button is pressed"""
-        button = self.button.rect.collidepoint(mouse_pos)
-        if button and not self.game_active:
+        collide = False
+        if mouse_pos != "":
+            collide = self.button.rect.collidepoint(mouse_pos)
+
+        # only work if the "P" key pressed or button pressed
+        if (collide and not self.game_active) or key_pressed:
             # reset the game stats
             self.game_stats.reset_settings()
             self.game_active = True
@@ -102,7 +108,7 @@ class SideWayShooter:
                 self._check_keyup()
             elif self.event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
-                self._check_play_button(mouse_pos)
+                self._check_play_button(mouse_pos, key_pressed=False)
 
     def _fire_bullet(self):
         """create a new bullet instance every time space bar is clicked"""
