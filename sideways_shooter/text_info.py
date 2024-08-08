@@ -19,3 +19,11 @@ class PKeyInfo:
         self.rect.midtop = self.screen_rect.midtop
 
         self._prep_msg()
+
+    def _prep_msg(self, msg="Press the \"P\" KEY to play the game."):
+        """prepare text message image ,and position it to render on the screen"""
+        self.msg_image = self.font.render(msg, True, self.font_color, self.bg_color)
+        self.msg_image_rect = self.msg_image.get_rect()
+        self.msg_image_rect.center = self.rect.center
+
+
