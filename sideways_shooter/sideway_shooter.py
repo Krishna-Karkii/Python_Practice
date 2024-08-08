@@ -8,6 +8,7 @@ from bullet import Bullet
 from alien import Alien
 from game_stats import GameStats
 from button import Button
+from text_info import PKeyInfo
 
 
 class SideWayShooter:
@@ -38,6 +39,7 @@ class SideWayShooter:
 
         self.game_active = False
         self.button = Button(self, "Play")
+        self.p_key_info = PKeyInfo(self)
 
     def run_game(self):
         """This function contains the main loop of the game"""
@@ -50,6 +52,7 @@ class SideWayShooter:
             self._update_display()
             if not self.game_active:
                 self.button.draw()
+                self.p_key_info.render_text()
             pygame.display.flip()
             self.clock.tick(60)
 
@@ -81,7 +84,7 @@ class SideWayShooter:
             collide = self.button.rect.collidepoint(mouse_pos)
 
         # only work if the "P" key pressed or button pressed
-        if (collide and not self.game_active) or key_pressed:
+        if (collide and not self.game_active) or (key_pressed and not self.game_active):
             # reset the game stats
             self.game_stats.reset_settings()
             self.game_active = True

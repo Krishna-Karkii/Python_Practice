@@ -26,4 +26,7 @@ class PKeyInfo:
         self.msg_image_rect = self.msg_image.get_rect()
         self.msg_image_rect.center = self.rect.center
 
-
+    def render_text(self):
+        """This method helps to render the message image on the screen"""
+        self.screen.fill(self.bg_color, self.rect)
+        self.screen.blit(self.msg_image, self.msg_image_rect)
