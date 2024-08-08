@@ -74,9 +74,22 @@ class SideWayShooter:
 
     def _check_play_button(self, mouse_pos):
         """manages the action when play button is pressed"""
-        if self.button.rect.collidepoint(mouse_pos):
+        button = self.button.rect.collidepoint(mouse_pos)
+        if button and not self.game_active:
+            # reset the game stats
             self.game_stats.reset_settings()
             self.game_active = True
+
+            # empty the bullets and aliens group
+            self.bullets.empty()
+            self.aliens.empty()
+
+            # create a new fleet, and recenter the ship
+            self._create_fleet()
+            self.ship.center_ship()
+
+            # hide cursor
+            pygame.mouse.set_visible(False)
 
     def _check_events(self):
         """check events from the recent events"""
@@ -156,6 +169,7 @@ class SideWayShooter:
 
         else:
             self.game_active = False
+            pygame.mouse.set_visible(True)
 
     def _change_fleet_direction(self):
         """change the direction, and dropdown the fleet"""
