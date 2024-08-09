@@ -2,6 +2,7 @@ import sys
 import pygame
 
 from settings import Settings
+from ship import Ship
 
 
 class TargetPractice:
@@ -22,6 +23,8 @@ class TargetPractice:
         # To control the frames of the game
         self.clock = pygame.time.Clock()
 
+        self.ship = Ship(self)
+
     def run_game(self):
         """This method contains the main loop of the game."""
         # main loop of the game
@@ -31,6 +34,7 @@ class TargetPractice:
                     sys.exit()
 
             self.screen.fill(self.settings.screen_bg_color)
+            self.ship.blit_me()
             pygame.display.flip()
 
             # control the pace of the loop for 60 fps
