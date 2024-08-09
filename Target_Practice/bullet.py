@@ -29,3 +29,7 @@ class Bullet(Sprite):
     def draw_bullet(self):
         """draw the bullet on the surface."""
         pygame.draw.rect(self.screen, self.settings.bullet_color, self.rect)
+
+    def disappeared(self):
+        """Return true if the bullet disappeared off the screen"""
+        return self.rect.left > self.settings.screen_width

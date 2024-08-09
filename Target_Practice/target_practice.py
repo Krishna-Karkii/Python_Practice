@@ -87,10 +87,20 @@ class TargetPractice:
         self.ship.update_ship_pos()
         self.bullets.update()
 
+        self._remove_bullet()
+
     def _create_bullet(self):
         """create a bullet instance and add it in bullets group."""
-        new_bullet = Bullet(self)
-        self.bullets.add(new_bullet)
+        # only create bullet upto 3 bullets
+        if len(self.bullets.sprites()) < 3:
+            new_bullet = Bullet(self)
+            self.bullets.add(new_bullet)
+
+    def _remove_bullet(self):
+        """remove bullet from the group is disappeared from the edge"""
+        for bullet in self.bullets.sprites().copy():
+            if bullet.disappeared():
+                self.bullets.remove(bullet)
 
 
 if __name__ == "__main__":
