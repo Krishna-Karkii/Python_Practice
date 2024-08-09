@@ -33,6 +33,7 @@ class TargetPractice:
 
             self.screen.fill(self.settings.screen_bg_color)
             self.ship.blit_me()
+            self.ship.update_ship_pos()
             pygame.display.flip()
 
             # control the pace of the loop for 60 fps
@@ -45,8 +46,29 @@ class TargetPractice:
                 sys.exit()
 
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_q:
-                    sys.exit()
+                self._check_keydown(event)
+
+            elif event.type == pygame.KEYUP:
+                self._check_keyup(event)
+
+    def _check_keydown(self, event):
+        """check event related to the keydown"""
+        if event.key == pygame.K_q:
+            sys.exit()
+
+        elif event.key == pygame.K_UP:
+            self.ship.up_flag = True
+
+        elif event.key == pygame.K_DOWN:
+            self.ship.down_flag = True
+
+    def _check_keyup(self, event):
+        """check event related to the key up."""
+        if event.key == pygame.K_UP:
+            self.ship.up_flag = False
+
+        elif event.key == pygame.K_DOWN:
+            self.ship.down_flag = False
 
 
 if __name__ == "__main__":

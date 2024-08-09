@@ -8,3 +8,6 @@ class Settings:
 
         # main window background color
         self.screen_bg_color = (130, 130, 130)
+
+        # ship settings
+        self.ship_speed = 1.5
