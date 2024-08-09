@@ -29,9 +29,7 @@ class TargetPractice:
         """This method contains the main loop of the game."""
         # main loop of the game
         while True:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    sys.exit()
+            self._check_events()
 
             self.screen.fill(self.settings.screen_bg_color)
             self.ship.blit_me()
@@ -39,6 +37,16 @@ class TargetPractice:
 
             # control the pace of the loop for 60 fps
             self.clock.tick(60)
+
+    def _check_events(self):
+        """Responds to the mouse and keyboard inputs."""
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_q:
+                    sys.exit()
 
 
 if __name__ == "__main__":
