@@ -30,9 +30,12 @@ class Ship:
 
     def update_ship_pos(self):
         """update the position of the ship on key press"""
-        if self.down_flag:
+        # move the ship left only if ship has not reached bottom edge
+        if self.down_flag and self.rect.bottom < self.settings.screen_height:
             self.y += self.settings.ship_speed
-        if self.up_flag:
+
+        # move the ship right only if ship has not reached top edge
+        if self.up_flag and self.rect.top > 0:
             self.y -= self.settings.ship_speed
 
         self.rect.y = self.y
