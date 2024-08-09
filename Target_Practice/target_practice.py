@@ -3,6 +3,7 @@ import pygame
 
 from settings import Settings
 from ship import Ship
+from bullet import Bullet
 
 
 class TargetPractice:
@@ -25,15 +26,15 @@ class TargetPractice:
 
         self.ship = Ship(self)
 
+        self.bullets = pygame.sprite.Group()
+
     def run_game(self):
         """This method contains the main loop of the game."""
         # main loop of the game
         while True:
             self._check_events()
 
-            self.screen.fill(self.settings.screen_bg_color)
-            self.ship.blit_me()
-            self.ship.update_ship_pos()
+            self._update_window()
             pygame.display.flip()
 
             # control the pace of the loop for 60 fps
@@ -62,6 +63,9 @@ class TargetPractice:
         elif event.key == pygame.K_DOWN:
             self.ship.down_flag = True
 
+        elif event.key == pygame.K_SPACE:
+            self._create_bullet()
+
     def _check_keyup(self, event):
         """check event related to the key up."""
         if event.key == pygame.K_UP:
@@ -69,6 +73,24 @@ class TargetPractice:
 
         elif event.key == pygame.K_DOWN:
             self.ship.down_flag = False
+
+    def _update_window(self):
+        """update the window before flipping it."""
+        self.screen.fill(self.settings.screen_bg_color)
+        self.ship.blit_me()
+
+        # draw every bullet on bullets group on surface
+        for bullet in self.bullets.sprites():
+            bullet.draw_bullet()
+
+        # update the ship and bullet position
+        self.ship.update_ship_pos()
+        self.bullets.update()
+
+    def _create_bullet(self):
+        """create a bullet instance and add it in bullets group."""
+        new_bullet = Bullet(self)
+        self.bullets.add(new_bullet)
 
 
 if __name__ == "__main__":
