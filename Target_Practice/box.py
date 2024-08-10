@@ -17,4 +17,16 @@ class Box:
         # store the float value y of box position
         self.y = float(self.rect.y)
 
+    def draw_box(self):
+        """blit the box rect on the surface."""
+        pygame.draw.rect(self.screen, self.settings.box_color, self.rect)
 
+    def check_edges(self):
+        """check if box has hit the top edge or bottom edge."""
+        return (self.rect.bottom >= self.settings.screen_height) or (self.rect.top <= 0)
+
+    def update(self):
+        """update the box position not crossing the edges."""
+        self.y += self.settings.box_speed * self.settings.box_direction
+
+        self.rect.y = self.y
