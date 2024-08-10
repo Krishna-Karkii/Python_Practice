@@ -17,3 +17,12 @@ class Settings:
         self.bullet_height = 15
         self.bullet_width = 3
         self.bullet_color = (40, 35, 35)
+
+        # box settings
+        self.box_height = 55
+        self.box_width = 50
+        self.box_color = (230, 230, 230)
+        self.box_speed = 1
+
+        # -1 for up, 1 for down
+        self.box_direction = 1
