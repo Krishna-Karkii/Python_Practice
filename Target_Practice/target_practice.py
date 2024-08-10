@@ -4,6 +4,7 @@ import pygame
 from settings import Settings
 from ship import Ship
 from bullet import Bullet
+from box import Box
 
 
 class TargetPractice:
@@ -24,7 +25,9 @@ class TargetPractice:
         # To control the frames of the game
         self.clock = pygame.time.Clock()
 
+        # create the instance of ship and box
         self.ship = Ship(self)
+        self.box = Box(self)
 
         self.bullets = pygame.sprite.Group()
 
@@ -77,14 +80,18 @@ class TargetPractice:
     def _update_window(self):
         """update the window before flipping it."""
         self.screen.fill(self.settings.screen_bg_color)
+
+        # blit the objects on the surface
         self.ship.blit_me()
+        self.box.draw_box()
 
         # draw every bullet on bullets group on surface
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
 
-        # update the ship and bullet position
+        # update the ship, box, and bullet position
         self.ship.update_ship_pos()
+        self._update_box()
         self.bullets.update()
 
         self._remove_bullet()
@@ -101,6 +108,12 @@ class TargetPractice:
         for bullet in self.bullets.sprites().copy():
             if bullet.disappeared():
                 self.bullets.remove(bullet)
+
+    def _update_box(self):
+        """check edges, and update the position of the box."""
+        if self.box.check_edges():
+            self.settings.box_direction *= -1
+        self.box.update()
 
 
 if __name__ == "__main__":
