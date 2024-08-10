@@ -31,6 +31,10 @@ class TargetPractice:
 
         self.bullets = pygame.sprite.Group()
 
+        # count the no of bullets, game active flag
+        self.count = 0
+        self.game_active = True
+
     def run_game(self):
         """This method contains the main loop of the game."""
         # main loop of the game
@@ -39,6 +43,7 @@ class TargetPractice:
 
             self._bullet_box_collision()
             self._update_window()
+            self._end_game()
             pygame.display.flip()
 
             # control the pace of the loop for 60 fps
@@ -87,13 +92,14 @@ class TargetPractice:
         self.box.draw_box()
 
         # draw every bullet on bullets group on surface
-        for bullet in self.bullets.sprites():
-            bullet.draw_bullet()
+        if self.game_active:
+            for bullet in self.bullets.sprites():
+                bullet.draw_bullet()
 
-        # update the ship, box, and bullet position
-        self.ship.update_ship_pos()
-        self._update_box()
-        self.bullets.update()
+            # update the ship, box, and bullet position
+            self.ship.update_ship_pos()
+            self._update_box()
+            self.bullets.update()
 
         self._remove_bullet()
 
@@ -109,6 +115,7 @@ class TargetPractice:
         for bullet in self.bullets.sprites().copy():
             if bullet.disappeared():
                 self.bullets.remove(bullet)
+                self.count += 1
 
     def _update_box(self):
         """check edges, and update the position of the box."""
@@ -119,6 +126,11 @@ class TargetPractice:
     def _bullet_box_collision(self):
         """check if the bullet collided with the box."""
         pygame.sprite.spritecollide(self.box, self.bullets, True)
+
+    def _end_game(self):
+        """end the game when the player missed 3 times"""
+        if self.count >= 3:
+            self.game_active = False
 
 
 if __name__ == "__main__":
