@@ -134,7 +134,9 @@ class TargetPractice:
 
     def _bullet_box_collision(self):
         """check if the bullet collided with the box."""
-        pygame.sprite.spritecollide(self.box, self.bullets, True)
+        # speed the pace of the game if bullet hits
+        if pygame.sprite.spritecollide(self.box, self.bullets, True):
+            self.settings.speed_up()
 
     def _end_game(self):
         """end the game when the player missed 3 times"""
@@ -147,11 +149,11 @@ class TargetPractice:
         """check if the mouse point and play button collided"""
         if self.button.rect.collidepoint(mouse_pos) and not self.game_active:
             # center ship, reposition the box and empty the bullets
-            # initialize the box settings
+            # initialize the dynamic settings
             self.ship.center_ship()
             self.box.reposition_box()
             self.bullets.empty()
-            self.settings.initialize_box_settings()
+            self.settings.initialize_dynamic_settings()
 
             # set the game active to true
             self.game_active = True

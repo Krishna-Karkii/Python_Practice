@@ -9,11 +9,7 @@ class Settings:
         # main window background color
         self.screen_bg_color = (130, 130, 130)
 
-        # ship settings
-        self.ship_speed = 1.5
-
         # bullet settings
-        self.bullet_speed = 3.0
         self.bullet_height = 15
         self.bullet_width = 3
         self.bullet_color = (40, 35, 35)
@@ -22,12 +18,22 @@ class Settings:
         self.box_height = 55
         self.box_width = 50
         self.box_color = (230, 230, 230)
-        self.box_speed = 1
 
-        # -1 for up, 1 for down
-        self.box_direction = 1
+        self.initialize_dynamic_settings()
 
-    def initialize_box_settings(self):
-        """initialize the box settings of the game."""
+        # pace on which the game should speed up
+        self.speed_up_pace = 1.2
+
+    def initialize_dynamic_settings(self):
+        """initialize the dynamic settings of the game."""
+        # box direction -1 for up, 1 for down
         self.box_direction = 1
-        self.box_speed = 1
+        self.box_speed = 1.5
+        self.bullet_speed = 3.0
+        self.ship_speed = 1.5
+
+    def speed_up(self):
+        """speed up the pace of the game."""
+        self.box_speed *= self.speed_up_pace
+        self.bullet_speed *= self.speed_up_pace
+        self.ship_speed *= self.speed_up_pace
