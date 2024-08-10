@@ -5,6 +5,7 @@ from settings import Settings
 from ship import Ship
 from bullet import Bullet
 from box import Box
+from button import Button
 
 
 class TargetPractice:
@@ -31,9 +32,11 @@ class TargetPractice:
 
         self.bullets = pygame.sprite.Group()
 
+        self.button = Button(self)
+
         # count the no of bullets, game active flag
         self.count = 0
-        self.game_active = True
+        self.game_active = False
 
     def run_game(self):
         """This method contains the main loop of the game."""
@@ -44,6 +47,8 @@ class TargetPractice:
             self._bullet_box_collision()
             self._update_window()
             self._end_game()
+            if not self.game_active:
+                self.button.display_button()
             pygame.display.flip()
 
             # control the pace of the loop for 60 fps
@@ -60,6 +65,10 @@ class TargetPractice:
 
             elif event.type == pygame.KEYUP:
                 self._check_keyup(event)
+
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = pygame.mouse.get_pos()
+                self._check_play_button(mouse_pos)
 
     def _check_keydown(self, event):
         """check event related to the keydown"""
@@ -131,6 +140,11 @@ class TargetPractice:
         """end the game when the player missed 3 times"""
         if self.count >= 3:
             self.game_active = False
+
+    def _check_play_button(self, mouse_pos):
+        """check if the mouse point and play button collided"""
+        if self.button.rect.collidepoint(mouse_pos) and not self.game_active:
+            self.game_active = True
 
 
 if __name__ == "__main__":
