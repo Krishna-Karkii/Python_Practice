@@ -37,6 +37,7 @@ class TargetPractice:
         while True:
             self._check_events()
 
+            self._bullet_box_collision()
             self._update_window()
             pygame.display.flip()
 
@@ -114,6 +115,10 @@ class TargetPractice:
         if self.box.check_edges():
             self.settings.box_direction *= -1
         self.box.update()
+
+    def _bullet_box_collision(self):
+        """check if the bullet collided with the box."""
+        pygame.sprite.spritecollide(self.box, self.bullets, True)
 
 
 if __name__ == "__main__":
