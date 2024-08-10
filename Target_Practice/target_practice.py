@@ -140,10 +140,20 @@ class TargetPractice:
         """end the game when the player missed 3 times"""
         if self.count >= 3:
             self.game_active = False
+            # set the count to 0 so the game could start again if pressed play
+            self.count = 0
 
     def _check_play_button(self, mouse_pos):
         """check if the mouse point and play button collided"""
         if self.button.rect.collidepoint(mouse_pos) and not self.game_active:
+            # center ship, reposition the box and empty the bullets
+            # initialize the box settings
+            self.ship.center_ship()
+            self.box.reposition_box()
+            self.bullets.empty()
+            self.settings.initialize_box_settings()
+
+            # set the game active to true
             self.game_active = True
 
 

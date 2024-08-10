@@ -13,7 +13,7 @@ class Settings:
         self.ship_speed = 1.5
 
         # bullet settings
-        self.bullet_speed = 2.0
+        self.bullet_speed = 3.0
         self.bullet_height = 15
         self.bullet_width = 3
         self.bullet_color = (40, 35, 35)
@@ -26,3 +26,8 @@ class Settings:
 
         # -1 for up, 1 for down
         self.box_direction = 1
+
+    def initialize_box_settings(self):
+        """initialize the box settings of the game."""
+        self.box_direction = 1
+        self.box_speed = 1

@@ -30,3 +30,8 @@ class Box:
         self.y += self.settings.box_speed * self.settings.box_direction
 
         self.rect.y = self.y
+
+    def reposition_box(self):
+        """resposition the box to the bottom-right of the window"""
+        self.rect.bottomright = self.screen_rect.bottomright
+        self.y = float(self.rect.y)
