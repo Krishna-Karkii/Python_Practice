@@ -11,8 +11,8 @@ class Ship:
         self.settings = sws_game.settings
 
         # Loading the image, rotating 90 degrees, and setting its position
-        self.image = pygame.image.load("../images/sideway_ship.png")
-        self.image = pygame.transform.rotate(self.image, 270)
+        self.image = pygame.image.load("../images/spaceship_tp.png")
+        self.image = pygame.transform.rotate(self.image, 90)
         self.rect = self.image.get_rect()
         self.rect.midleft = self.screen_rect.midleft
 

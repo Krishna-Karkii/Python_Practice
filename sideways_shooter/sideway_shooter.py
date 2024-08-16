@@ -115,8 +115,8 @@ class SideWayShooter:
 
     def _fire_bullet(self):
         """create a new bullet instance every time space bar is clicked"""
-        # create and add no more than 6 bullets
-        if len(self.bullets.sprites()) < 6:
+        # create and add no more than 5 bullets
+        if len(self.bullets.sprites()) < 5:
             self.bullet = Bullet(self)
             self.bullets.add(self.bullet)
 
@@ -177,7 +177,9 @@ class SideWayShooter:
             time.sleep(0.5)
 
         else:
+            # set game active to false, initialize dynamics after game over.
             self.game_active = False
+            self.settings.initialize_dynamic_settings()
             pygame.mouse.set_visible(True)
 
     def _change_fleet_direction(self):
@@ -200,6 +202,8 @@ class SideWayShooter:
 
         # create if all alien destroyed
         if not self.aliens:
+            # speed up the game.
+            self.settings.speed_up()
             self.bullets.empty()
             self._create_fleet()
 
