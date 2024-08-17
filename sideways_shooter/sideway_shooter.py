@@ -38,8 +38,14 @@ class SideWayShooter:
         self._create_fleet()
 
         self.game_active = False
+        self.play_pressed = False
         self.button = Button(self, "Play")
         self.p_key_info = PKeyInfo(self)
+
+        # initialize the Easy, Medium and Hard button
+        self.easy_button = Button(self, "Easy")
+        self.medium_button = Button(self, "Medium")
+        self.hard_button = Button(self, "Hard")
 
     def run_game(self):
         """This function contains the main loop of the game"""
@@ -50,9 +56,6 @@ class SideWayShooter:
                 self._update_bullet()
                 self._update_aliens()
             self._update_display()
-            if not self.game_active:
-                self.button.draw()
-                self.p_key_info.render_text()
             pygame.display.flip()
             self.clock.tick(60)
 
@@ -77,29 +80,6 @@ class SideWayShooter:
         if self.event.key == pygame.K_DOWN:
             self.ship.down_flag = False
 
-    def _check_play_button(self, mouse_pos, key_pressed):
-        """manages the action when play button is pressed"""
-        collide = False
-        if mouse_pos != "":
-            collide = self.button.rect.collidepoint(mouse_pos)
-
-        # only work if the "P" key pressed or button pressed
-        if (collide and not self.game_active) or (key_pressed and not self.game_active):
-            # reset the game stats
-            self.game_stats.reset_settings()
-            self.game_active = True
-
-            # empty the bullets and aliens group
-            self.bullets.empty()
-            self.aliens.empty()
-
-            # create a new fleet, and recenter the ship
-            self._create_fleet()
-            self.ship.center_ship()
-
-            # hide cursor
-            pygame.mouse.set_visible(False)
-
     def _check_events(self):
         """check events from the recent events"""
         for self.event in pygame.event.get():
@@ -111,7 +91,38 @@ class SideWayShooter:
                 self._check_keyup()
             elif self.event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
-                self._check_play_button(mouse_pos, key_pressed=False)
+                # if play not pressed
+                if not self.play_pressed:
+                    self._check_play_button(mouse_pos, key_pressed=False)
+
+    def _check_play_button(self, mouse_pos, key_pressed):
+        """manages the action when play button is pressed"""
+        collide = False
+        if mouse_pos != "":
+            collide = self.button.rect.collidepoint(mouse_pos)
+
+        # only work if the "P" key pressed or button pressed
+        if (collide and not self.game_active) or (key_pressed and not self.game_active):
+            # reset the game stats
+            self.game_stats.reset_settings()
+            self.play_pressed = True
+
+            # empty the bullets and aliens group
+            self.bullets.empty()
+            self.aliens.empty()
+
+            # create a new fleet, and recenter the ship
+            self._create_fleet()
+            self.ship.center_ship()
+
+    def _draw_difficulty_button(self):
+        """Check which difficulty button is pressed."""
+        self.easy_button.draw()
+        print(self.easy_button.rect.y)
+        self.medium_button.draw()
+        print(self.medium_button.rect.y)
+        self.hard_button.draw()
+        print(self.hard_button.rect.y)
 
     def _fire_bullet(self):
         """create a new bullet instance every time space bar is clicked"""
@@ -151,6 +162,14 @@ class SideWayShooter:
         for bullet in self.bullets.sprites():
             bullet.draw()
         self.aliens.draw(self.screen)
+
+        # if game not active draw button
+        if not self.game_active:
+            self.button.draw()
+            self.p_key_info.render_text()
+        # if play button pressed draw difficulty buttons
+        if self.play_pressed:
+            self._draw_difficulty_button()
 
     def _update_bullet(self):
         """update the bullet position and remove unnecessary bullets"""
