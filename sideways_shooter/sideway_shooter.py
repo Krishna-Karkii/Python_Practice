@@ -51,6 +51,9 @@ class SideWayShooter:
         # initialize the scoreboard
         self.sb = ScoreBoard(self)
 
+        # Assign point to alien
+        self.alien_point = 30
+
     def run_game(self):
         """This function contains the main loop of the game"""
         while True:
@@ -248,6 +251,11 @@ class SideWayShooter:
         """respond to alien-bullet collisions, and create new fleet"""
         # respond to collision between bullet and ship
         collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
+
+        # increase the score if alien is hit and update score
+        if collisions:
+            self.game_stats.score += len(collisions) * self.alien_point
+            self.sb.prep_score()
 
         # create if all alien destroyed
         if not self.aliens:
