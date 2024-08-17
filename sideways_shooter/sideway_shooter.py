@@ -91,9 +91,7 @@ class SideWayShooter:
                 self._check_keyup()
             elif self.event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
-                # if play not pressed
-                if not self.play_pressed:
-                    self._check_play_button(mouse_pos, key_pressed=False)
+                self._check_play_pressed(mouse_pos)
 
     def _check_play_button(self, mouse_pos, key_pressed):
         """manages the action when play button is pressed"""
@@ -115,14 +113,41 @@ class SideWayShooter:
             self._create_fleet()
             self.ship.center_ship()
 
+    def _check_play_pressed(self, mouse_pos):
+        """Check which button to draw based on play button pressed or not."""
+        # if play not pressed
+        if not self.play_pressed:
+            self._check_play_button(mouse_pos, key_pressed=False)
+
+        # if play pressed
+        elif self.play_pressed:
+            self._check_difficulty_button(mouse_pos)
+
     def _draw_difficulty_button(self):
         """Check which difficulty button is pressed."""
         self.easy_button.draw()
-        print(self.easy_button.rect.y)
         self.medium_button.draw()
-        print(self.medium_button.rect.y)
         self.hard_button.draw()
-        print(self.hard_button.rect.y)
+
+    def _check_difficulty_button(self, mouse_pos):
+        """check which difficulty button is pressed based on the position of mouse."""
+        # if mouse click collide on easy button, set game active with easy dynamics
+        if self.easy_button.rect.collidepoint(mouse_pos):
+            self.settings.initialize_dynamic_settings()
+            self.game_active = True
+            self.play_pressed = False
+
+        # if mouse click collided on medium button, set game active with medium dynamics
+        elif self.medium_button.rect.collidepoint(mouse_pos):
+            self.settings.initialize_medium_settings()
+            self.game_active = True
+            self.play_pressed = False
+
+        # if mouse click collided on hard button, set game active with hard dynamics
+        elif self.hard_button.rect.collidepoint(mouse_pos):
+            self.settings.initialize_medium_settings()
+            self.game_active = True
+            self.play_pressed = False
 
     def _fire_bullet(self):
         """create a new bullet instance every time space bar is clicked"""
