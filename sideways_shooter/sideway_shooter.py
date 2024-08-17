@@ -9,6 +9,7 @@ from alien import Alien
 from game_stats import GameStats
 from button import Button
 from text_info import PKeyInfo
+from scoreboard import ScoreBoard
 
 
 class SideWayShooter:
@@ -46,6 +47,9 @@ class SideWayShooter:
         self.easy_button = Button(self, "Easy")
         self.medium_button = Button(self, "Medium")
         self.hard_button = Button(self, "Hard")
+
+        # initialize the scoreboard
+        self.sb = ScoreBoard(self)
 
     def run_game(self):
         """This function contains the main loop of the game"""
@@ -187,6 +191,7 @@ class SideWayShooter:
         for bullet in self.bullets.sprites():
             bullet.draw()
         self.aliens.draw(self.screen)
+        self.sb.draw()
 
         # if game not active draw button
         if not self.game_active:

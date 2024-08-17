@@ -10,3 +10,4 @@ class GameStats:
 
     def reset_settings(self):
         self.ship_count = self.settings.ships_allowed
+        self.score = 0
