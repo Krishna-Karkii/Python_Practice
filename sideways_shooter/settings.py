@@ -13,8 +13,7 @@ class Settings:
         # Default game statistics
         self.ships_allowed = 3
 
-        self.initialize_dynamic_settings()
-
+        # scale at which game speeds up
         self.speedup_scale = 1.2
 
     def initialize_dynamic_settings(self):
@@ -31,3 +30,22 @@ class Settings:
         self.alien_speed *= self.speedup_scale
         self.bullet_speed *= self.speedup_scale
         self.ship_speed *= self.speedup_scale
+
+    def initialize_medium_settings(self):
+        """initialize the medium settings for the game."""
+        self.alien_speed = 3.0
+        self.bullet_speed = 6.0
+        self.ship_speed = 4.0
+
+        # -1 for moving up and 1 for moving down
+        self.fleet_direction = 1
+
+    def initialize_hard_settings(self):
+        """initialize the hard settings for the game."""
+        self.alien_speed = 4.0
+        self.bullet_speed = 8.0
+        self.ship_speed = 5.0
+
+        # -1 for moving up and 1 for moving down
+        self.fleet_direction = 1
+
