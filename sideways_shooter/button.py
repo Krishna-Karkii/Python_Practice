@@ -16,7 +16,7 @@ class Button:
 
         # create rect and define its position
         self.rect = pygame.Rect(0, 0, self.width, self.height)
-        self.rect.center = self.screen_rect.center
+        self._define_position(msg)
 
         self._prep_msg(msg)
 
@@ -30,3 +30,16 @@ class Button:
         """draw the button on the screen"""
         self.screen.fill(self.button_color, self.rect)
         self.screen.blit(self.msg_image, self.msg_image_rect)
+
+    def _define_position(self, msg):
+        """Define the position of the rect based on the msg"""
+        # default position for Play and Medium button
+        self.rect.center = self.screen_rect.center
+
+        # check the msg and define the position of the rect
+        if msg == "Easy":
+            self.rect.centery -=100
+
+        elif msg == "Hard":
+            self.rect.centery += 100
+
