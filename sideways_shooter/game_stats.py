@@ -5,7 +5,7 @@ class GameStats:
         """Initialize the default statistics"""
         super().__init__()
         self.settings = sws_game.settings
-        self.high_score = 0
+        self.high_score = self._get_high_score()
 
         self.reset_settings()
 
@@ -20,3 +20,13 @@ class GameStats:
         if the current score is greater."""
         if self.score > self.high_score:
             self.high_score = self.score
+            # write the new high score to the file
+            with open("hs.txt", 'w') as file:
+                file.write(str(self.high_score))
+
+    def _get_high_score(self):
+        """Get the high score from the stored file."""
+        with open("hs.txt", 'r') as file:
+            hs = file.read()
+
+        return int(hs)
