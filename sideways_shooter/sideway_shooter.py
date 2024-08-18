@@ -202,6 +202,8 @@ class SideWayShooter:
             self.p_key_info.render_text()
         # if play button pressed draw difficulty buttons
         if self.play_pressed:
+            # prepare the level message if new game starts
+            self.sb.prep_level()
             self._draw_difficulty_button()
 
     def _update_bullet(self):
@@ -262,8 +264,13 @@ class SideWayShooter:
 
         # create if all alien destroyed
         if not self.aliens:
+            # increment the level and re-prepare the message
+            self.game_stats.level += 1
+            self.sb.prep_level()
+
             # speed up the game.
             self.settings.speed_up()
+
             self.bullets.empty()
             self._create_fleet()
 
