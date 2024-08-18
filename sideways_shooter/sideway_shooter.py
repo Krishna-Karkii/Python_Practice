@@ -253,9 +253,12 @@ class SideWayShooter:
         collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
 
         # increase the score if alien is hit and update score
+        # check if the current high score can be updated
         if collisions:
             self.game_stats.score += len(collisions) * self.alien_point
             self.sb.prep_score()
+            self.game_stats.check_high_score()
+            self.sb.prep_high_score()
 
         # create if all alien destroyed
         if not self.aliens:
