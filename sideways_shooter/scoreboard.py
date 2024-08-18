@@ -15,6 +15,7 @@ class ScoreBoard:
 
         self.prep_score()
         self.prep_high_score()
+        self.prep_level()
 
     def prep_score(self):
         """This method creates current user score image."""
@@ -35,7 +36,17 @@ class ScoreBoard:
         self.hs_img_rect.center = self.screen_rect.center
         self.hs_img_rect.top = 20
 
+    def prep_level(self):
+        """creates the level image, set its position"""
+        level = str(self.stats.level)
+        self.lvl_img = self.font.render(level, True, self.font_color)
+        self.lvl_img_rect = self.lvl_img.get_rect()
+        self.lvl_img_rect.right = self.score_img_rect.right
+        self.lvl_img_rect.top = self.score_img_rect.top + 50
+
+
     def draw(self):
         """This method draws the prepared images related to scoring."""
         self.screen.blit(self.score_img, self.score_img_rect)
         self.screen.blit(self.hs_img, self.hs_img_rect)
+        self.screen.blit(self.lvl_img, self.lvl_img_rect)

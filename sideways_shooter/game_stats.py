@@ -13,6 +13,7 @@ class GameStats:
         """reset the stats when the function is called."""
         self.ship_count = self.settings.ships_allowed
         self.score = 0
+        self.level = 1
 
     def check_high_score(self):
         """This method checks and updates the high score,
