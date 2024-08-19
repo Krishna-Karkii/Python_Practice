@@ -53,6 +53,7 @@ class SideWayShooter:
 
         # Assign point to alien
         self.alien_point = 30
+        self.alien_point_up_rate = 1.5
 
     def run_game(self):
         """This function contains the main loop of the game"""
@@ -202,8 +203,9 @@ class SideWayShooter:
             self.p_key_info.render_text()
         # if play button pressed draw difficulty buttons
         if self.play_pressed:
-            # prepare the level message if new game starts
+            # prepare the level, score message if new game starts
             self.sb.prep_level()
+            self.sb.prep_score()
             self._draw_difficulty_button()
 
     def _update_bullet(self):
@@ -233,6 +235,7 @@ class SideWayShooter:
         else:
             # set game active to false, initialize dynamics after game over.
             self.game_active = False
+            self.alien_point = 30
             self.settings.initialize_dynamic_settings()
             pygame.mouse.set_visible(True)
 
@@ -267,6 +270,9 @@ class SideWayShooter:
             # increment the level and re-prepare the message
             self.game_stats.level += 1
             self.sb.prep_level()
+
+            # increase the point of the next fleet
+            self.alien_point = int(self.alien_point * self.alien_point_up_rate)
 
             # speed up the game.
             self.settings.speed_up()
