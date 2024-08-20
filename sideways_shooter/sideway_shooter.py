@@ -55,6 +55,9 @@ class SideWayShooter:
         self.alien_point = 30
         self.alien_point_up_rate = 1.5
 
+        # assign ships left
+        self.ships_left = pygame.sprite.Group()
+
     def run_game(self):
         """This function contains the main loop of the game"""
         while True:
@@ -196,6 +199,7 @@ class SideWayShooter:
             bullet.draw()
         self.aliens.draw(self.screen)
         self.sb.draw()
+        self.ships_left.draw(self.screen)
 
         # if game not active draw button
         if not self.game_active:
@@ -207,6 +211,7 @@ class SideWayShooter:
             self.sb.prep_level()
             self.sb.prep_score()
             self._draw_difficulty_button()
+            self.evaluate_ships_left()
 
     def _update_bullet(self):
         """update the bullet position and remove unnecessary bullets"""
@@ -231,6 +236,10 @@ class SideWayShooter:
             self.ship.center_ship()
 
             time.sleep(0.5)
+
+            # remove the ships left, and evaluate again
+            self.ships_left.empty()
+            self.evaluate_ships_left()
 
         else:
             # set game active to false, initialize dynamics after game over.
@@ -299,6 +308,20 @@ class SideWayShooter:
 
         # check if the alien has hit the bottom screen
         self._check_bottom_hit()
+
+    def evaluate_ships_left(self):
+        """initialize the number of the ships left,
+        add it to the ships group."""
+        for i in range(self.game_stats.ship_count):
+            ship = Ship(self)
+            ship.image = pygame.transform.rotate(ship.image, 90)
+            ship.rect.top = 10
+            ship.rect.x += i * ship.rect.width
+            self.ships_left.add(ship)
+
+    def draw_ships_left(self):
+        """draw the number of ships left."""
+        self.ships_left.draw()
 
 
 if __name__ == "__main__":
