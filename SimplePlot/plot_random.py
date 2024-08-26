@@ -10,7 +10,10 @@ while True:
     # fig for the figure, ax for plot
     fig, ax = plt.subplots()
 
-    ax.scatter(rw.x_values, rw.y_values, s=15)
+    # create list of points to assign for a step
+    points = range(rw.nums)
+
+    ax.scatter(rw.x_values, rw.y_values, c=points, cmap=plt.cm.Reds, s=15)
     ax.set_aspect("equal")
     plt.show()
 
