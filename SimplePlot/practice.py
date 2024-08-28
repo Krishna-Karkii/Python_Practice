@@ -9,6 +9,10 @@ z = x * 2
 plt.scatter(x, z, c=x, cmap=plt.cm.Blues, s=10)
 plt.scatter(x, y, c=x,  cmap=plt.cm.Reds, s=10)
 
+# create the colorbar
+cbar = plt.colorbar()
+cbar.set_label("Color Values")
+
 # set the properties of the chart
 plt.axis([1, 1100, 1, 1_100_000])
 plt.xlabel("Number", fontsize=14)
